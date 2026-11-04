@@ -3,6 +3,8 @@ var gameOver=false;
 function emptyBoard(){ return [null,null,null,null,null,null,null,null,null]; }
 // игра кончается, как только ЛЮБОЙ квадрат (мой или противника) заполнен первым
 function anyBoardFull(){ return myFreeCells().length===0 || foeFreeCells().length===0; }
+// подсказка в строке под кубиком (alert в VK заблокирован)
+function msg(t){ var l=document.getElementById('diceLabel'); if(l) l.textContent=t; }
 
 function startGame(m){
   mode=m||'player';
@@ -16,6 +18,7 @@ function startGame(m){
   document.getElementById('rollBtn').disabled=false;
   document.getElementById('diceLabel').textContent='Твой ход: брось кость';
   document.getElementById('insertBtn').style.display='none';
+  var eb=document.getElementById('endBox'); if(eb) eb.classList.remove('show');
   showScreen('screen-game');
 }
 
@@ -56,8 +59,8 @@ function makeCell(c, idx, owner){
     if(c.dup>1){ div.innerHTML='<span class="dg">'+diceGlyph(c.v)+'</span><span class="dup">×'+c.dup+'</span>'; }
     div.style.pointerEvents='none';
   }
-  // клик по клетке — ставит кубик в столбец (свой квадрат)
-  if(!c){
+  // клик по клетке — ставит кубик в столбец (свой квадрат); в игре с ботом чужой квадрат неактивен
+  if(!c && !(mode==='bot' && owner==='p2')){
     (function(){ div.onclick=function(){ insertIntoColumn(owner, idx%3); }; })();
   }
   return div;
@@ -67,9 +70,9 @@ function ownArr(owner){ return owner==='p1' ? boardP1 : boardP2; }
 function foeArrOf(owner){ return owner==='p1' ? boardP2 : boardP1; }
 function insertIntoColumn(owner, col){
   if(busy||gameOver) return;
-  if(currentDice===null){ alert('Сначала брось кость!'); return; }
+  if(currentDice===null){ msg('Сначала брось кость!'); return; }
   // ходит только владелец своего квадрата
-  if(owner!==turn){ alert('Ход '+(turn==='p1'?'Игрока 1':'Игрока 2')); return; }
+  if(owner!==turn){ msg('Ход '+(turn==='p1'?'Игрока 1':'Игрока 2')); return; }
   var n=currentDice;
   var arr=ownArr(owner), foe=foeArrOf(owner);
   // вставляем кубик в первую свободную клетку выбранного столбца
@@ -77,7 +80,7 @@ function insertIntoColumn(owner, col){
   for(var j=col;j<9;j+=3){
     if(arr[j]===null){ arr[j]={v:n, dup:1}; placed=j; break; }
   }
-  if(placed<0){ alert('В этом столбце нет свободных клеток'); return; }
+  if(placed<0){ msg('В этом столбце нет свободных клеток'); return; }
   // дубль: если в столбце уже есть такое же число
   var c=placed%3, existing=false;
   for(var q=c;q<9;q+=3){ if(q!==placed && arr[q] && arr[q].v===n) existing=true; }

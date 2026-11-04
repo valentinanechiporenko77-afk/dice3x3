@@ -70,3 +70,14 @@
   .result { text-align: center; font-size: 12px; font-weight: 700; min-height: 16px; }
   .result.win { color: #7de08a; text-shadow: 0 0 12px rgba(125,224,138,.4); }
   .result.lose { color: #ff6b6b; }
+  #rollBtn:disabled { opacity: .4; box-shadow: none; cursor: default; transform: none; }
+
+  /* ==== финал игры: затемнение с итогом ==== */
+  .end-box { display: none; position: fixed; left: 0; top: 0; right: 0; bottom: 0; z-index: 500; background: rgba(8,4,12,.88); padding: 18px; text-align: center; }
+  .end-box.show { display: flex; flex-direction: column; align-items: center; justify-content: center; gap: 10px; }
+  .end-title { font-size: 22px; font-weight: 800; color: #ffd76a; text-shadow: 0 0 16px rgba(255,215,106,.5); }
+  .end-faces { font-size: 54px; line-height: 1.1; letter-spacing: 6px; }
+  .end-faces .dance { animation: dance 1s ease-in-out infinite; }
+  .end-faces .cry { animation: cry 0.9s ease-in-out infinite; }
+  .end-text { font-size: 13px; color: #d5c8d9; line-height: 1.4; max-width: 280px; }
+  .end-box .btn { width: 100%; max-width: 260px; margin: 0; }

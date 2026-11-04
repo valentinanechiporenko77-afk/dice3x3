@@ -1,4 +1,4 @@
-﻿<!DOCTYPE html>
+<!DOCTYPE html>
 <html lang="ru">
 <head>
 <meta charset="UTF-8">
@@ -47,11 +47,18 @@ window.onerror=function(m,s,l){var d=document.getElementById('diag');if(d){d.sty
     <button class="btn btn-ghost" onclick="showScreen('screen-menu')">Завершить</button>
   </div>
 </div>
-<script src="vk-bridge.js?v=8"></script>
-<script src="app-1.js?v=8"></script>
-<script src="app-2.js?v=8"></script>
-<script src="app-3.js?v=8"></script>
-<script src="app-4.js?v=8"></script>
+<div class="end-box" id="endBox">
+  <div class="end-title" id="endTitle">Конец игры</div>
+  <div class="end-faces"><span id="endF1">🧑</span><span id="endF2">👤</span></div>
+  <div class="end-text" id="endText"></div>
+  <button class="btn btn-next" onclick="startGame(mode)">🔁 Играть ещё</button>
+  <button class="btn btn-ghost" onclick="showScreen('screen-menu')">🏠 В меню</button>
+</div>
+<script src="vk-bridge.js?v=9"></script>
+<script src="app-1.js?v=9"></script>
+<script src="app-2.js?v=9"></script>
+<script src="app-3.js?v=9"></script>
+<script src="app-4.js?v=9"></script>
 <script>
 document.getElementById('rollBtn').addEventListener('click', function(){
   var l=document.getElementById('diceLabel');

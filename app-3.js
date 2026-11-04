@@ -28,11 +28,11 @@ function setupDiceDrag(){
           // в режиме бота можно ставить только в свой (верхний) квадрат
           if(mode==='bot'){
             if(place==='p1') clickMyCell(idx);
-            else alert('Перетаскивай на свою (верхнюю) клетку');
+            else msg('Переставляй на свою (верхнюю) клетку');
           } else {
             // режим двух игроков: ставим в квадрат текущего игрока
             if(place===turn) clickAnyCell(turn, idx);
-            else alert('Ход '+ (turn==='p1'?'Игрока 1':'Игрока 2'));
+            else msg('Ход '+ (turn==='p1'?'Игрока 1':'Игрока 2'));
           }
         }
       }
@@ -63,7 +63,7 @@ function hitCell(x,y){
 
 function clickMyCell(i){
   if(busy||gameOver) return;
-  if(currentDice===null){ alert('Сначала брось кость!'); return; }
+  if(currentDice===null){ msg('Сначала брось кость!'); return; }
   var n=currentDice;
   var r=Math.floor(i/3), c=i%3;
   // дубль: если в этом же ряду/столбце УЖЕ есть такое же число n на моей клетке — это дубль (добавляет +1 копию/очки)
@@ -105,9 +105,9 @@ function clickMyCell(i){
 
 function clickAnyCell(owner, idx){
   if(busy||gameOver) return;
-  if(currentDice===null){ alert('Сначала брось кость!'); return; }
+  if(currentDice===null){ msg('Сначала брось кость!'); return; }
   // может ходить только текущий игрок
-  if(owner!==turn){ alert('Ход '+ (turn==='p1'?'Игрока 1':'Игрока 2')); return; }
+  if(owner!==turn){ msg('Ход '+ (turn==='p1'?'Игрока 1':'Игрока 2')); return; }
   var n=currentDice;
   var myArr = owner==='p1' ? boardP1 : boardP2;
   var foeArr = owner==='p1' ? boardP2 : boardP1;

@@ -93,6 +93,31 @@ function endGame(){
   document.getElementById('scoreVal').textContent=gameScore;
   document.getElementById('coinVal').textContent=getCoins();
   document.getElementById('diceLabel').textContent='Игра окончена. Нажми Завершить.';
+  // итоговое окно поверх игры
+  var eb=document.getElementById('endBox');
+  if(eb){
+    var t=document.getElementById('endTitle'), x=document.getElementById('endText');
+    var f1=document.getElementById('endF1'), f2=document.getElementById('endF2');
+    if(s1>s2){
+      t.textContent = (mode==='player') ? '🎉 Победил Игрок 1' : '🎉 Победа!';
+      x.textContent = name1+' победил: '+s1+' > '+s2+'. Очки: '+gameScore;
+      f1.textContent='💃'; f1.className='dance';
+      f2.textContent='😭'; f2.className='cry';
+    }
+    else if(s2>s1){
+      t.textContent = (mode==='player') ? '🎉 Победил Игрок 2' : '😭 Проигрыш';
+      x.textContent = name2+' победил: '+s2+' > '+s1+'. Очки: '+gameScore;
+      f1.textContent='😭'; f1.className='cry';
+      f2.textContent='💃'; f2.className='dance';
+    }
+    else {
+      t.textContent='🤝 Ничья';
+      x.textContent='Суммы равны: '+s1+' = '+s2+'. Очки: '+gameScore;
+      f1.textContent='🤝'; f1.className='';
+      f2.textContent='🤝'; f2.className='';
+    }
+    eb.classList.add('show');
+  }
   // отправить результат в лидерборд Яндекс Игр
   if(gameScore>0) submitScore(gameScore);
 }
