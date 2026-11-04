@@ -40,9 +40,9 @@
   .sil-state { font-size: 9px; color: #b8a8bd; line-height: 1.1; }
   .vs { font-weight: 800; color: #ff6b6b; font-size: 13px; text-shadow: 0 0 8px rgba(255,60,60,.5); }
   .silhouette.win .sil-figure { animation: dance 1s ease-in-out infinite; }
-  .silhouette.lose .sil-figure { animation: angry 0.7s ease-in-out infinite; }
+  .silhouette.lose .sil-figure { animation: cry 0.9s ease-in-out infinite; }
   @keyframes dance { 0%,100%{ transform: rotate(0) translateY(0);} 25%{ transform: rotate(-14deg) translateY(-4px);} 75%{ transform: rotate(14deg) translateY(-4px);} }
-  @keyframes angry { 0%,100%{ transform: translateX(0);} 25%{ transform: translateX(-4px);} 75%{ transform: translateX(4px);} }
+  @keyframes cry { 0%,100%{ transform: rotate(-7deg) translateY(0);} 50%{ transform: rotate(7deg) translateY(2px);} }
 
   /* кость + кнопка в одну строку — всегда на виду */
   .dice-area { display: flex; flex-wrap: wrap; align-items: center; gap: 8px; }

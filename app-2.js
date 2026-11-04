@@ -1,10 +1,13 @@
 if(window.__diag)window.__diag('JS: app-2');
+var gameOver=false;
 function emptyBoard(){ return [null,null,null,null,null,null,null,null,null]; }
+// игра кончается, как только ЛЮБОЙ квадрат (мой или противника) заполнен первым
+function anyBoardFull(){ return myFreeCells().length===0 || foeFreeCells().length===0; }
 
 function startGame(m){
   mode=m||'player';
   boardP1=emptyBoard(); boardP2=emptyBoard();
-  turn='p1'; currentDice=null; busy=false; gameScore=0;
+  turn='p1'; currentDice=null; busy=false; gameScore=0; gameOver=false;
   document.getElementById('result').textContent='';
   document.getElementById('coinVal').textContent=getCoins();
   document.getElementById('scoreVal').textContent=gameScore;
@@ -63,7 +66,7 @@ function makeCell(c, idx, owner){
 function ownArr(owner){ return owner==='p1' ? boardP1 : boardP2; }
 function foeArrOf(owner){ return owner==='p1' ? boardP2 : boardP1; }
 function insertIntoColumn(owner, col){
-  if(busy) return;
+  if(busy||gameOver) return;
   if(currentDice===null){ alert('Сначала брось кость!'); return; }
   // ходит только владелец своего квадрата
   if(owner!==turn){ alert('Ход '+(turn==='p1'?'Игрока 1':'Игрока 2')); return; }
@@ -89,7 +92,7 @@ function insertIntoColumn(owner, col){
   renderBoards();
   document.getElementById('insertBtn').style.display='none';
   var myFree = owner==='p1' ? myFreeCells() : foeFreeCells();
-  if(myFree.length===0){ endGame(); return; }
+  if(myFree.length===0 || anyBoardFull()){ endGame(); return; }
   if(mode==='bot'){
     document.getElementById('rollBtn').disabled=true;
     setTimeout(botTurn, 700);
@@ -115,7 +118,7 @@ function myFreeCells(){
 }
 
 function rollDice(){
-  if(busy) return;
+  if(busy||gameOver) return;
   busy=true;
   var d=document.getElementById('dice');
   d.textContent='?';

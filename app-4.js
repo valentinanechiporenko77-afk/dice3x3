@@ -6,7 +6,8 @@ function foeFreeCells(){
 }
 
 function botTurn(){
-  if(foeFreeCells().length===0 && myFreeCells().length===0){ endGame(); return; }
+  if(gameOver) return;
+  if(anyBoardFull()){ endGame(); return; }
   var d=document.getElementById('dice');
   d.textContent='?';
   document.getElementById('diceLabel').textContent='Бот бросает…';
@@ -49,8 +50,8 @@ function botTurn(){
       }
     }
     renderBoards();
-    // игра заканчивается, когда у игрока все 9 клеток заполнены
-    if(myFreeCells().length===0){ endGame(); return; }
+    // игра заканчивается, как только любой квадрат заполнен первым
+    if(anyBoardFull()){ endGame(); return; }
     turn='p1';
     document.getElementById('rollBtn').disabled=false;
     document.getElementById('diceLabel').textContent='Твой ход: брось кость';
@@ -58,8 +59,12 @@ function botTurn(){
 }
 
 function endGame(){
+  if(gameOver) return;
+  gameOver=true;
   // подсчёт очков: сумма чисел своего квадрата + накопленные бонусы за стирания
   var s1=sumOf(boardP1), s2=sumOf(boardP2);
+  var name1 = mode==='player' ? 'Игрок 1' : 'Ты';
+  var name2 = mode==='player' ? 'Игрок 2' : 'Противник';
   var res=document.getElementById('result');
   var silP1=document.getElementById('silP1'), silP2=document.getElementById('silP2');
   var stP1=document.getElementById('silP1State'), stP2=document.getElementById('silP2State');
@@ -70,20 +75,20 @@ function endGame(){
   document.getElementById('rollBtn').disabled=true;
   if(s1>s2){
     res.className='result win';
-    res.textContent='🎉 Ты победил! Твоя сумма '+s1+' > '+s2+'. Итого очков: '+gameScore;
+    res.textContent='🎉 '+name1+' победил! Сумма '+s1+' > '+s2+'. Очки: '+gameScore;
     addCoins(3);
     silP1.classList.add('win'); stP1.textContent='танцует 💃';
-    silP2.classList.add('lose'); stP2.textContent='злится 😠';
+    silP2.classList.add('lose'); stP2.textContent='плачет 😭';
   }
   else if(s2>s1){
     res.className='result lose';
-    res.textContent='😎 Противник победил! Его сумма '+s2+' > '+s1+'. Твои очки: '+gameScore;
-    silP1.classList.add('lose'); stP1.textContent='злится 😠';
+    res.textContent='😭 '+name2+' победил! Сумма '+s2+' > '+s1+'. Очки: '+gameScore;
+    silP1.classList.add('lose'); stP1.textContent='плачет 😭';
     silP2.classList.add('win'); stP2.textContent='танцует 💃';
   }
   else {
     res.className='result';
-    res.textContent='🤝 Ничья! Сумма '+s1+' = '+s2+'. Твои очки: '+gameScore;
+    res.textContent='🤝 Ничья! Сумма '+s1+' = '+s2+'. Очки: '+gameScore;
   }
   document.getElementById('scoreVal').textContent=gameScore;
   document.getElementById('coinVal').textContent=getCoins();

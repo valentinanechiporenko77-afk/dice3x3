@@ -62,7 +62,7 @@ function hitCell(x,y){
 }
 
 function clickMyCell(i){
-  if(busy) return;
+  if(busy||gameOver) return;
   if(currentDice===null){ alert('Сначала брось кость!'); return; }
   var n=currentDice;
   var r=Math.floor(i/3), c=i%3;
@@ -90,8 +90,8 @@ function clickMyCell(i){
   currentDice=null;
   if(bonus>0){ gameScore+=bonus; document.getElementById('scoreVal').textContent=gameScore; }
   renderBoards();
-  // игра заканчивается, когда у игрока все 9 клеток заполнены
-  if(myFreeCells().length===0){ endGame(); return; }
+  // игра заканчивается, как только любой квадрат заполнен первым
+  if(myFreeCells().length===0 || anyBoardFull()){ endGame(); return; }
   // переход хода
   if(mode==='bot'){
     document.getElementById('rollBtn').disabled=true;
@@ -104,7 +104,7 @@ function clickMyCell(i){
 }
 
 function clickAnyCell(owner, idx){
-  if(busy) return;
+  if(busy||gameOver) return;
   if(currentDice===null){ alert('Сначала брось кость!'); return; }
   // может ходить только текущий игрок
   if(owner!==turn){ alert('Ход '+ (turn==='p1'?'Игрока 1':'Игрока 2')); return; }
@@ -126,9 +126,9 @@ function clickAnyCell(owner, idx){
   currentDice=null;
   if(bonus>0){ gameScore+=bonus; document.getElementById('scoreVal').textContent=gameScore; }
   renderBoards();
-  // когда у текущего игрока все клетки заполнены — окончание
+  // когда любой из квадратов заполнен — окончание
   var myFree = owner==='p1' ? myFreeCells() : foeFreeCells();
-  if(myFree.length===0){ endGame(); return; }
+  if(myFree.length===0 || anyBoardFull()){ endGame(); return; }
   turn = turn==='p1' ? 'p2' : 'p1';
   document.getElementById('rollBtn').disabled=false;
   document.getElementById('diceLabel').textContent=(turn==='p1'?'Игрок 1':'Игрок 2')+': брось кость';
