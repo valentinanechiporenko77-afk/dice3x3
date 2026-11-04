@@ -1,0 +1,58 @@
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Кости — квадрат 3×3</title>
+<link rel="stylesheet" href="app.css">
+</head>
+<body>
+<div id="diag" style="position:fixed;left:0;top:0;right:0;z-index:9999;font:11px/1.5 monospace;background:#000;color:#7de08a;padding:3px 8px;white-space:pre-wrap">JS: ?</div>
+<script>
+window.__diag=function(t){var d=document.getElementById('diag');if(d)d.textContent=t;};
+window.__diag('JS: запуск');
+window.onerror=function(m,s,l){window.__diag('ОШИБКА стр.'+l+': '+m);return false;};
+window.addEventListener('load',function(){window.__diag('JS: ок, скриптов '+document.scripts.length);});
+</script>
+<div class="app">
+  <div id="screen-load" class="screen">
+    <h1>🎲 Кости — квадрат 3×3</h1>
+    <div class="sub">Загрузка…</div>
+    <div class="dice" id="loadDice">🎲</div>
+  </div>
+
+  <div id="screen-menu" class="screen active">
+    <h1>🎲 Кости — квадрат 3×3</h1>
+    <div class="sub">Кидай кость, ставь число на клетку. Совпадение с твоим = ×2, с числом соперника = исчезает. Кто больше по сумме — победил!</div>
+    <button class="btn btn-next" onclick="startGame('bot')">🤖 Играть с ботом</button>
+    <button class="btn btn-next" onclick="startGame('player')">👥 Играть с игроком</button>
+  </div>
+
+  <div id="screen-game" class="screen">
+    <div class="score-bar"><span>Монеты: <b id="coinVal">0</b></span><span>Очки: <b id="scoreVal">0</b></span><button class="music-btn" id="musicBtn" onclick="toggleMusic()" title="Музыка">🎵</button></div>
+    <div class="players-silhouettes">
+      <div class="silhouette" id="silP1"><div class="sil-figure">🧑</div><div class="sil-state" id="silP1State">игрок</div></div>
+      <div class="vs">VS</div>
+      <div class="silhouette" id="silP2"><div class="sil-figure">👤</div><div class="sil-state" id="silP2State">игрок</div></div>
+    </div>
+    <div class="board-title me">🙂 Мой квадрат · Сумма: <b id="p1Sum">0</b></div>
+    <div class="board" id="boardP1"></div>
+    <div class="dice-area">
+      <div class="dice" id="dice">—</div>
+      <button class="btn btn-next" id="rollBtn" onclick="rollDice()">🎲 Бросить кость</button>
+      <button class="btn btn-next" id="insertBtn" onclick="insertColumn()" style="display:none">📥 Вставить</button>
+      <div class="dice-label" id="diceLabel">Твой ход: брось кость</div>
+    </div>
+    <div class="board-title foe">😎 Квадрат противника · Сумма: <b id="p2Sum">0</b></div>
+    <div class="board" id="boardP2"></div>
+    <div class="result" id="result"></div>
+    <button class="btn btn-ghost" onclick="showScreen('screen-menu')">Завершить</button>
+  </div>
+</div>
+<script src="vk-bridge.js"></script>
+<script src="app-1.js"></script>
+<script src="app-2.js"></script>
+<script src="app-3.js"></script>
+<script src="app-4.js"></script>
+</body>
+</html>
