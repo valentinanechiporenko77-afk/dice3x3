@@ -7,12 +7,10 @@
 <link rel="stylesheet" href="app.css">
 </head>
 <body>
-<div id="diag" style="position:fixed;left:0;top:0;right:0;z-index:9999;font:11px/1.5 monospace;background:#000;color:#7de08a;padding:3px 8px;white-space:pre-wrap">JS: ?</div>
+<div id="diag" style="display:none;position:fixed;left:0;top:0;right:0;z-index:9999;font:11px/1.5 monospace;background:#000;color:#ff8a8a;padding:3px 8px;white-space:pre-wrap"></div>
 <script>
-window.__diag=function(t){var d=document.getElementById('diag');if(d)d.textContent=t;};
-window.__diag('JS: запуск');
-window.onerror=function(m,s,l){window.__diag('ОШИБКА стр.'+l+': '+m);return false;};
-window.addEventListener('load',function(){window.__diag('JS: ок, скриптов '+document.scripts.length);});
+window.__diag=function(t){window.__lastDiag=t;};
+window.onerror=function(m,s,l){var d=document.getElementById('diag');if(d){d.style.display='block';d.textContent='ОШИБКА стр.'+l+': '+m;}return false;};
 </script>
 <div class="app">
   <div id="screen-load" class="screen">
